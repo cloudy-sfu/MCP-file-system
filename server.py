@@ -61,6 +61,18 @@ def format_size_bitwise(size_bytes):
 mcp = FastMCP("file-system")
 
 
+@mcp.prompt()
+def file_system():
+    """
+    A template of introduction to MCP server "file-system".
+    """
+    return ("MCP server \"file-system\" mounts a file tree that you have access to. "
+            "Refer to information in the given files if the user's message seems to "
+            "be related these files. You may read the content and organize your answer "
+            "based on these information, help edit these files (especially code "
+            "repository), or search content to summarize the information.")
+
+
 @mcp.tool()
 def list_dir(paths):
     """
