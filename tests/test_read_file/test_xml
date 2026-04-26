@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+    <book id="bk101">
+        <title>Data Science Foundations</title>
+        <author>天地玄黄龜鬱臺灣辭彙いろはにほへと쳇바퀴에</author>
+        <publish_date>2025-10-15</publish_date>
+        <genre>Technical</genre>
+        <price currency="USD">45.00</price>
+    </book>
+    <book id="bk102">
+        <title>Optimization Algorithms</title>
+        <author>天地玄黄龜鬱臺灣辭彙いろはにほへと쳇바퀴에</author>
+        <publish_date>2026-01-20</publish_date>
+        <genre>Mathematics</genre>
+        <price currency="USD">62.50</price>
+    </book>
+</library>
