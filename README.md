@@ -39,19 +39,9 @@ Environment variables (inside MCP server config form):
 
 Tools:
 
-If using read-only mode, disable "auto approve" of the following tools.
+To make LLM read only, disable "auto approve" of the following tools.
 
 ```
 delete_file, create_file, delete_lines, insert_lines
 ```
-
->   [!note]
->
->   If your MCP server management software doesn't support requiring manual approval before calling some MCP tools, you don't need to set "Tools", but add the following variables into environment variables inside MCP server config form.
->
->   | Variable name | Description                                                  |
->   | ------------- | ------------------------------------------------------------ |
->   | `mode`        | `edit` or `read`. If using `edit` mode, LLM can create or delete text files, add or delete content into text files. If using `read` mode, LLM cannot do these things. If the integration software can control "auto approve", such as Cherry Studio, this value can always be `edit`. |
->
->   When tools config exists and "auto approve" of these tools are disabled, the server is still in read-only mode even if `mode="edit"`.
 

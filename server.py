@@ -32,7 +32,6 @@ sys.excepthook = handle_exception
 
 # %% Define base directory
 base_dir = os.path.abspath(os.environ.get('base_dir', os.path.expanduser("~")))
-edit_permission = os.environ.get('mode') == "edit"
 
 # %% Ignore list
 session = Session()
@@ -169,7 +168,6 @@ def delete_file(file_path):
     :return: A string "OK" to notify the function succeed, or raise an error if
     it encounters errors.
     """
-    assert edit_permission, "MCP server is in read-only mode."
     file_path = os.path.join(base_dir, file_path)
     if os.path.commonpath([base_dir, file_path]) != base_dir:
         raise PermissionError("Your attempt to access path outside of base directory "
@@ -188,7 +186,8 @@ def delete_file(file_path):
 @mcp.tool()
 def create_file(file_path, content):
     """
-    Create a new text file.
+    Create a new text file. You cannot use this function to overwrite an existed file.
+    To edit an existed file, use "delete_lines" and "insert_lines" tool.
     :param file_path: File path of a text file. The file path is relative to base
     directory.
     :param content: str, string as the content of the new file. You should use "\n" LF
@@ -197,12 +196,11 @@ def create_file(file_path, content):
     :return: A string "OK" to notify the function succeed, or raise an error if it
     encounters errors.
     """
-    assert edit_permission, "MCP server is in read-only mode."
     file_path = os.path.join(base_dir, file_path)
     if os.path.commonpath([base_dir, file_path]) != base_dir:
         raise PermissionError("Your attempt to access path outside of base directory "
                               "is denied.")
-    if not os.path.exists(file_path):
+    if os.path.exists(file_path):
         raise FileExistsError("This file already exists. You should edit or choose a "
                               "different filename, but cannot overwrite it.")
     parent_dir = os.path.dirname(file_path)
@@ -229,7 +227,6 @@ def delete_lines(file_path, line_ranges):
     :return: A string "OK" to notify the function succeed, or raise an error if
     it encounters errors.
     """
-    assert edit_permission, "MCP server is in read-only mode."
     file_path = os.path.join(base_dir, file_path)
     if os.path.commonpath([base_dir, file_path]) != base_dir:
         raise PermissionError("Your attempt to access path outside of base directory "
@@ -294,7 +291,6 @@ def insert_lines(file_path, pos, content):
     :return: A string "OK" to notify the function succeed, or raise an error if it
     encounters errors.
     """
-    assert edit_permission, "MCP server is in read-only mode."
     file_path = os.path.join(base_dir, file_path)
     if os.path.commonpath([base_dir, file_path]) != base_dir:
         raise PermissionError("Your attempt to access path outside of base directory "
@@ -306,6 +302,7 @@ def insert_lines(file_path, pos, content):
     match = from_bytes(data).best()
     if not match:  # is not text
         raise Exception("This file is not a text file.")
+    pos = json.loads(pos)
     text = str(match)
     lines = text.splitlines()
     inserted_lines = content.splitlines()
@@ -343,6 +340,8 @@ def search_lines(file_path, pattern, match_case, whole_word):
     match = from_bytes(data).best()
     if not match:  # is not text
         raise Exception("This file is not a text file.")
+    match_case = json.loads(match_case)
+    whole_word = json.loads(whole_word)
     text = str(match)
     lines = text.splitlines()
     results = []
