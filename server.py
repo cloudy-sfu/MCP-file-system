@@ -320,10 +320,10 @@ def search_lines(file_path, pattern, match_case, whole_word):
     :param file_path: str. Path to the text file, relative to the base directory.
     :param pattern: str. Substring to search for; any line containing this
         pattern will be included in the result.
-    :param match_case: bool. If True, the search is case-sensitive and a line
-        is returned only when the pattern's case matches exactly. If False,
+    :param match_case: bool. If "true", the search is case-sensitive and a line
+        is returned only when the pattern's case matches exactly. If "false",
         the search is case-insensitive.
-    :param whole_word: bool. If True, a line is returned only when the pattern
+    :param whole_word: bool. If "true", a line is returned only when the pattern
         appears as a whole word (i.e., bounded by non-word characters or line
         boundaries), rather than as part of a larger word.
     :return: list. Line numbers and text from the file that match the search criteria.
